@@ -4,6 +4,8 @@ from tabpfn import TabPFNClassifier
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.metrics import roc_curve, auc
 
+tabpfn_classifier = TabPFNClassifier(N_ensemble_configurations=32)
+
 
 class BinaryClassifier(object):
     def __init__(self, reducer, model, validation_metrics):
@@ -22,8 +24,8 @@ def train_binary_classifier(X, y, n_splits=10, test_size=0.2):
     fprs = []
     tprs = []
     red = LOL(n_components=100)
-    mdl = TabPFNClassifier(N_ensemble_configurations=32)
-    mdl.remove_models_from_memory()
+    mdl = tabpfn_classifier
+    #mdl.remove_models_from_memory()
     if n_splits is not None:
         splitter = StratifiedShuffleSplit(n_splits=n_splits, test_size=test_size)
         for i, (train_index, test_index) in enumerate(splitter.split(X, y)):
